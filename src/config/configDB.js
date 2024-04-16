@@ -8,9 +8,9 @@ async function connect(){
             useNewUrlParser: true,
             useUnifiedTopology:true,
         });
-        console.log('connect Database successfully.')
+        console.log('=== connect Database successfully. ===')
     } catch (error) {
-        console.log('connect DataBase error : '+ error);
+        console.log('===> connect DataBase error : '+ error);
     }
 }
 module.exports = {connect};

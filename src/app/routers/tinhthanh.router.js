@@ -5,8 +5,21 @@ const TinhThanhController = require('../controllers/tinhthanh.controller')
 
 router.get('/getAll', TinhThanhController.getAll)
 router.get('/getOne/:_id', TinhThanhController.getOne)
-router.post('/add/:maTinh', TinhThanhController.addDiaDiem)
-router.delete('/delete/:maTinh/:tenDiaDiem', TinhThanhController.xoaDiaDiem);
-router.put('/update/:maTinh/:tenDiaDiem', TinhThanhController.chinhSuaDiaDiem);
+
+//DiaDiem
+router.post('/addDiaDiem/:maTinh', TinhThanhController.addDiaDiem)
+router.delete('/deleteDiaDiem/:maTinh/:diaDiemId', TinhThanhController.xoaDiaDiem);
+router.put('/updateDiaDiem/:maTinh/:diaDiemId', TinhThanhController.chinhSuaDiaDiem);
+router.get('/getAllDiaDiem', TinhThanhController.getAllDiaDiem)
+router.get('/getDiaDiemByMaTinh/:maTinh', TinhThanhController.getDiaDiemByMaTinh)
+router.get('/getDiaDiemById/:diaDiemId', TinhThanhController.getDiaDiemById)
+//AmThuc
+router.post('/addMonAn/:maTinh', TinhThanhController.addAmThuc)
+router.delete('/deleteMonAn/:maTinh/:amThucId', TinhThanhController.xoaMonAn);
+router.put('/updateMonAn/:maTinh/:amThucId', TinhThanhController.chinhSuaMonAn);
+router.get('/getAllAmThuc', TinhThanhController.getAllAmThuc)
+router.get('/getAmThucByMaTinh/:maTinh', TinhThanhController.getAmThucByMaTinh)
+router.get('/getMonAnById/:amThucId', TinhThanhController.getAmThucById)
+
 
 module.exports = router
