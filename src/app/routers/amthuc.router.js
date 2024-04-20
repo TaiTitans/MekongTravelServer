@@ -7,6 +7,7 @@ router.post('/create', AmThucController.create)
 router.delete('/delete/:_id', AmThucController.delete)
 router.get('/getAll', AmThucController.getAll)
 router.get('/get/:_id', AmThucController.get)
+router.get('/getByTinhThanh/:tinhThanhID', AmThucController.getAmThucTheoTinhThanh)
 
 
 module.exports = router

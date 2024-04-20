@@ -153,5 +153,31 @@ class AmThucController {
 
         }
     }
+    async getAmThucTheoTinhThanh(req, res) {
+        try {
+            const { tinhThanhID } = req.params;
+            const amThucList = await AmThuc.find({ tinhThanhID }).populate('tinhThanhID').exec();
+    
+            if (amThucList.length === 0) {
+                return res.status(404).json({ data: null, error: 'Không tìm thấy ẩm thực' });
+            }
+    
+            const data = amThucList.map(({ _id, tenMonAn, moTa, soTien, hinhAnh, tinhThanhID }) => ({
+                _id,
+                tenMonAn,
+                moTa,
+                soTien,
+                hinhAnh,
+                tinhThanhID,
+            }));
+    
+            res.status(200).json({ data, error: null });
+        } catch (error) {
+            res.status(404).json({
+                data: null,
+                error: error
+            })
+        }
+    }
 }
 module.exports = new AmThucController

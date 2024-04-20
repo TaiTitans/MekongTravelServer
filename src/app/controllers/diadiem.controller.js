@@ -154,32 +154,31 @@ class DiaDiemController {
 
         }
     }
-    async getDiaDiemTheoTinhThanh(req,res){
-    try{
-        const {tinhThanhID} = req.params
-        const diaDiemList = await DiaDiem.find({tinhThanhID}).populate('tinhThanhID').exec()
-        if(diaDiemList.length === 0){
-            return res.status(404).json({data:null, error:error})
-        }
-        var data = [];
-        diaDiemList.forEach(item=>{
-            data.push({
-                "_id": item._id,
-                "tenDiaDiem": item.tenDiaDiem,
-                "moTa": item.moTa,
-                "soSao": item.soSao,
-                "hinhAnh": item.hinhAnh,
-                "tinhThanhID": item.tinhThanhID,
-                "tenTinhThanh": item.tinhThanhID.tenTinhThanh
+    async getDiaDiemTheoTinhThanh(req, res) {
+        try {
+            const { tinhThanhID } = req.params;
+            const diaDiemList = await DiaDiem.find({ tinhThanhID }).populate('tinhThanhID').exec();
+    
+            if (diaDiemList.length === 0) {
+                return res.status(404).json({ data: null, error: 'Không tìm thấy địa điểm' });
+            }
+    
+            const data = diaDiemList.map(({ _id, tenDiaDiem, moTa, soSao, hinhAnh, tinhThanhID }) => ({
+                _id,
+                tenDiaDiem,
+                moTa,
+                soSao,
+                hinhAnh,
+                tinhThanhID,
+            }));
+    
+            res.status(200).json({ data, error: null });
+        } catch (error) {
+            res.status(404).json({
+                data: null,
+                error: error
             })
-        })
-        res.status(200).json({data: data, error:null})
-    }catch(error){
-        res.status(404).json({
-            data: null,
-            error: error
-        })  
-    }
+        }
     }
 }
 module.exports = new DiaDiemController
