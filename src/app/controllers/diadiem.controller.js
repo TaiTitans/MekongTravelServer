@@ -34,6 +34,7 @@ class DiaDiemController {
     async update(req, res) {
         try {
             const {
+                _id,
                 tenDiaDiem,
                 moTa,
                 soSao,
