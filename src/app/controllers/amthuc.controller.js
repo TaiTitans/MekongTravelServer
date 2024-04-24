@@ -179,5 +179,26 @@ class AmThucController {
             })
         }
     }
+    async searchAmThuc(req, res) {
+        const { searchKeyword } = req.body;
+        
+        // Xử lý từ khóa trước khi tìm kiếm
+        const cleanKeyword = searchKeyword.trim().replace(/[^\w\s]/gi, ''); // Loại bỏ các ký tự đặc biệt
+        
+        try {
+          const amThucList = await AmThuc.find({
+            $or: [
+              { tenMonAn: { $regex: new RegExp(cleanKeyword, 'i') } }, // Tìm theo tên món ăn có chứa từ khóa (không phân biệt hoa thường)
+              { moTa: { $regex: new RegExp(cleanKeyword, 'i') } } // Tìm theo mô tả có chứa từ khóa (không phân biệt hoa thường)
+            ]
+          }).populate('tinhThanhID');
+          
+          res.status(200).json({ success: true, data: amThucList });
+        } catch (error) {
+          console.error('Error searching amThuc:', error);
+          res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi tìm kiếm ẩm thực.' });
+        }
+      }
+      
 }
 module.exports = new AmThucController

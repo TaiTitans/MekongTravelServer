@@ -65,6 +65,37 @@ class FeedbackController{
     
             }
         }
+        async delete(req, res) {
+            try {
+                const {
+                    _id
+                } = req.params
+                const feedBackDelete = await Feedback.findOne({
+                    _id
+                });
+                if (!feedBackDelete) {
+                    return res.status(404).json({
+                        data: null,
+                        error: error
+                    });
+                } else {
+                    await feedBackDelete.deleteOne()
+                    res.status(200).json({
+                        data: feedBackDelete,
+                        error: null
+                    })
+                }
+    
+    
+            } catch (error) {
+                res.status(404).json({
+                    data: null,
+                    error: error
+                })
+    
+    
+            }
+        }
 }
 
 module.exports = new FeedbackController;

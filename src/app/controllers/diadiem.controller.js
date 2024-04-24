@@ -181,5 +181,25 @@ class DiaDiemController {
             })
         }
     }
+    async searchDiaDiem(req, res) {
+        const { searchKeyword } = req.body;
+        
+        // Xử lý từ khóa trước khi tìm kiếm
+        const cleanKeyword = searchKeyword.trim().replace(/[^\w\s]/gi, ''); // Loại bỏ các ký tự đặc biệt
+        
+        try {
+          const diaDiemList = await DiaDiem.find({
+            $or: [
+              { tenDiaDiem: { $regex: new RegExp(cleanKeyword, 'i') } }, // Tìm theo tên món ăn có chứa từ khóa (không phân biệt hoa thường)
+              { moTa: { $regex: new RegExp(cleanKeyword, 'i') } } // Tìm theo mô tả có chứa từ khóa (không phân biệt hoa thường)
+            ]
+          }).populate('tinhThanhID');
+          
+          res.status(200).json({ success: true, data: diaDiemList });
+        } catch (error) {
+          console.error('Error searching :', error);
+          res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi tìm kiếm.' });
+        }
+      }
 }
 module.exports = new DiaDiemController
